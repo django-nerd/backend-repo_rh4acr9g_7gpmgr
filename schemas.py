@@ -12,7 +12,7 @@ Model name is converted to lowercase for the collection name:
 """
 
 from pydantic import BaseModel, Field
-from typing import Optional
+from typing import Optional, List, Dict
 
 # Example schemas (replace with your own):
 
@@ -37,6 +37,25 @@ class Product(BaseModel):
     price: float = Field(..., ge=0, description="Price in dollars")
     category: str = Field(..., description="Product category")
     in_stock: bool = Field(True, description="Whether product is in stock")
+
+# IPO schema used by IPO section (collection name: "ipo")
+class IpoTimeline(BaseModel):
+    bidding: Optional[List[str]] = Field(default=None, description="[start_date, end_date]")
+    listing: Optional[str] = Field(default=None, description="Listing date")
+
+class Ipo(BaseModel):
+    name: str
+    symbol: str
+    sector: Optional[str] = None
+    issuePrice: float
+    currentPrice: float
+    lotSize: Optional[int] = None
+    listDate: Optional[str] = None
+    description: Optional[str] = None
+    registrar: Optional[str] = None
+    exchanges: Optional[List[str]] = None
+    timeline: Optional[IpoTimeline] = None
+    subscription: Optional[Dict[str, float]] = None
 
 # Add your own schemas here:
 # --------------------------------------------------
